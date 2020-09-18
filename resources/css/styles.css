@@ -9,7 +9,7 @@ body{
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    background-color: bisque;
+    background-image: linear-gradient(to bottom right, red,orange, yellow, green, blue, purple);
 }
 
 .page-header ul {
@@ -23,4 +23,5 @@ body{
     display: block;
     padding: 0.5em;
     text-decoration: none;
+    color: white;
 }
