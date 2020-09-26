@@ -43,6 +43,12 @@ data.forEach(function (object, index){
     
 });
 
+const all_items_button = Array.from(document.querySelectorAll("button"))
+all_items_button.forEach(elt => elt.addEventListener('click', () => {
+    addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
+    showItems()
+  }))
+
 const cart = [ ];
 // --------------------------------------------
 // Add Item
@@ -69,12 +75,12 @@ function showItems(){
         // assigns each of these variables in the curly braces to cart[i]
         const {name, price, qty} = cart[i]
 
-        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price} </li>`
+        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price.toFixed(2)} </li>`
     }
 
     itemList.innerHTML = itemStr
 
-    cartTotal.innerHTML = `Total in cart: $${total}`
+    cartTotal.innerHTML = `Total in cart: $${total.toFixed(2)}`
 }
 // -----------------------------------------------------------------------
 // get and return the quantity
