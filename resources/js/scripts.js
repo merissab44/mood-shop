@@ -1,4 +1,7 @@
 const itemsContainer = document.getElementById("items");
+const itemList = document.getElementById("item-list");
+const cartQty = document.getElementById("cart-qty");
+const cartTotal = document.getElementById("cart-total");
 import data from './data.js';
 
 // the number of items in the array will determine the times it will loop through
@@ -58,13 +61,20 @@ cart.push(item)
 function showItems(){
     const qty = getQty()
     const total = getTot()
-    console.log( `you have ${qty} items in your cart`);
+
+    cartQty.innerHTML = `you have ${qty} items in your cart`
     
+    let itemStr = ''
     for(let i = 0; i < cart.length; i += 1){
-        console.log(`$${cart[i].name} $${cart[i].price} x ${cart[i].qty}`)
+        // assigns each of these variables in the curly braces to cart[i]
+        const {name, price, qty} = cart[i]
+
+        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price} </li>`
     }
 
-    console.log(`Total in cart: $${total}`)
+    itemList.innerHTML = itemStr
+
+    cartTotal.innerHTML = `Total in cart: $${total}`
 }
 // -----------------------------------------------------------------------
 // get and return the quantity
@@ -113,3 +123,4 @@ removeItem('Grapes');
 // shows the items to the console
 showItems();
 
+console.log(itemList)
