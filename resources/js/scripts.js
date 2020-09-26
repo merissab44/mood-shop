@@ -42,7 +42,20 @@ data.forEach(function (object, index){
     console.log(button)
     
 });
-
+// add adds or removes items if item = 0 it'll remove the item from the cart
+itemList.onClick = function(e){
+    if(e.target && e.target.classList.contains('remove')){
+        const name = e.target.dataset.name // same as data-name
+        removeItem(name)
+    } else if (e.target && e.target.classList.contains('add-one')){
+        const name = e.target.dataset.name
+        addItem(name)
+    } else if (e.target && e.target.classList.contains('remove-one')){
+        const name = e.target.dataset.name
+        removeItem(name, 1)
+    }
+}
+// connects to add to cart button to the add item function
 const all_items_button = Array.from(document.querySelectorAll("button"))
 all_items_button.forEach(elt => elt.addEventListener('click', () => {
     addItem(elt.getAttribute('id'), elt.getAttribute('data-price'))
@@ -51,11 +64,23 @@ all_items_button.forEach(elt => elt.addEventListener('click', () => {
 
 const cart = [ ];
 // --------------------------------------------
+
+//Handle changed events on the update input
+itemList.onchange = function(e){
+    if(e.target && e.target.classList.contains('update')){
+        const name = e.target.dataset.name
+        const qty = parseInt(e.target.value)
+        updateCart(name, qty)
+    }
+}
+
+// --------------------------------------------
 // Add Item
 function addItem(name, price){
     for(let i = 0; i < cart.length; i += 1){
         if(cart[i].name === name){
             cart[i].qty += 1
+            showItems()
             return
         }
     }
@@ -75,12 +100,16 @@ function showItems(){
         // assigns each of these variables in the curly braces to cart[i]
         const {name, price, qty} = cart[i]
 
-        itemStr += `<li>${name} $${price} x ${qty} = ${qty * price.toFixed(2)} </li>`
+        itemStr += `<li>
+        ${name} $${price} x ${qty} = ${qty * price}
+        <button class="remove" data-name="${name}">Remove</button>
+        <button class="add-one" data-name="${name}"> + </button>
+        <button class="remove-one" data-name="${name}"> - </button>
+        <input class="update" type="number" data-name="${name}">
+        </li>`
     }
-
     itemList.innerHTML = itemStr
-
-    cartTotal.innerHTML = `Total in cart: $${total.toFixed(2)}`
+    cartTotal.innerHTML = `Total in cart: $${total}`
 }
 // -----------------------------------------------------------------------
 // get and return the quantity
@@ -112,21 +141,38 @@ function removeItem(name, qty = 0){
             if (cart[i].qty < 1 || qty === 0){
                 cart.splice(i, 1)
             }
+            showItems()
+            return
+        }
+    }
+}
+
+// --------------------------------------------
+
+function updateCart(name, qty){
+    for(let i = 0; i < cart.length; i += 1){
+        if(cart[i].name === name){
+            if(qty < 1){
+                removeItem(name)
+                return
+            }
+            cart[i].qty = qty
+            showItems()
             return
         }
     }
 }
 // --------------------------------------------
 // call add and show item functions. This prints it to the console
-addItem('Apple', 0.99);
-addItem('Orange', 1.29);
-addItem('Apple', 0.99);
-addItem('Orange', 1.29);
-addItem('Grapes', 5.99);
+// addItem('Apple', 0.99);
+// addItem('Orange', 1.29);
+// addItem('Apple', 0.99);
+// addItem('Orange', 1.29);
+// addItem('Grapes', 5.99);
 
-removeItem('Orange')
-removeItem('Grapes');
-// shows the items to the console
-showItems();
+// removeItem('Orange')
+// removeItem('Grapes');
+// // shows the items to the console
+// showItems();
 
 console.log(itemList)
