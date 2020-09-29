@@ -20,37 +20,39 @@ data.forEach(function (object, index){
     // add it to the div tag
     newDiv.appendChild(img);
     document.querySelector('#items').appendChild(newDiv)
-    console.log(img);
+    //console.log(img);
 
     // create a p tag
     let desc = document.createElement("p");
     desc.innerText = object.desc; // grabs the value for the key description
     newDiv.appendChild(desc); // adds it to the div tag
-    console.log(desc);
+    //console.log(desc);
 
      // create a p tag
     let price = document.createElement("p");
     price.innerText = object.price; // grabs the value for the key price
     newDiv.appendChild(price); // adds it to the div tag
-    console.log(price)
+    //console.log(price)
 
     let button = document.createElement("button"); // create a button
     button.id = object.name;  // grabs the value for the key name
     button.dataset.price = object.price;
     button.innerHTML = "Add to Cart"; // name of button
     newDiv.appendChild(button); // add it to the div tag
-    console.log(button)
+    //console.log(button)
     
 });
-// add adds or removes items if item = 0 it'll remove the item from the cart
-itemList.onClick = function(e){
-    if(e.target && e.target.classList.contains('remove')){
+//add adds or removes items if item = 0 it'll remove the item from the cart
+//itemList.addEventListener('click', function(){console.log(">>>>>>>>>")})
+itemList.onclick = function(e){
+    console.log("It's Clicked!!********")
+    if(e.target && e.target.classList.contains("remove")){
         const name = e.target.dataset.name // same as data-name
         removeItem(name)
-    } else if (e.target && e.target.classList.contains('add-one')){
+    } else if (e.target && e.target.classList.contains("add-one")){
         const name = e.target.dataset.name
         addItem(name)
-    } else if (e.target && e.target.classList.contains('remove-one')){
+    } else if (e.target && e.target.classList.contains("remove-one")){
         const name = e.target.dataset.name
         removeItem(name, 1)
     }
@@ -67,7 +69,7 @@ const cart = [ ];
 
 //Handle changed events on the update input
 itemList.onchange = function(e){
-    if(e.target && e.target.classList.contains('update')){
+    if(e.target && e.target.classList.contains("update")){
         const name = e.target.dataset.name
         const qty = parseInt(e.target.value)
         updateCart(name, qty)
@@ -102,7 +104,7 @@ function showItems(){
 
         itemStr += `<li>
         ${name} $${price} x ${qty} = ${qty * price}
-        <button class="remove" data-name="${name}">Remove</button>
+        <button class="remove" data-name="${name}"> Remove </button>
         <button class="add-one" data-name="${name}"> + </button>
         <button class="remove-one" data-name="${name}"> - </button>
         <input class="update" type="number" data-name="${name}">
